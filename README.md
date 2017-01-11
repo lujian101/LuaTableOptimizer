@@ -7,18 +7,18 @@ Simple readonly lua table optimizer
 		配置表将占用较多的内存，并且影响加载速度
 
 功能
-*获取字段中使用最多次数的值作为默认值，并且删除默认值字段
-*使用了非ASCII字符集字符的字段被视为需要做多语言化处理并提取替换成特殊标识符
-*唯一化所有的子table，并且指向同一个引用，以节约内存
+* 获取字段中使用最多次数的值作为默认值，并且删除默认值字段
+* 使用了非ASCII字符集字符的字段被视为需要做多语言化处理并提取替换成特殊标识符
+* 唯一化所有的子table，并且指向同一个引用，以节约内存
 
    Lua'table commonly use to store configuration data for games. it takes a lot of memory
 if it contains many fields with same value. this optimization could improve memory usage
 and loading speed.
 
 features
-*remove default value fields ( store them into metatable )
-*auto localization
-*reuse all table values to save memory
+* remove default value fields ( store them into metatable )
+* auto localization
+* reuse all table values to save memory
 
 
 require:
