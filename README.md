@@ -1,9 +1,7 @@
-﻿# LuaTableOptimizer
-simple readonly lua table optimizer 
-
+﻿#LuaTableOptimizer
+===================================================================================
+Simple readonly lua table optimizer 
 -----------------------------------------------------------------------------------
-Optimize readonly lua table memory via reuse values.
-
     Lua'table 通常被用来存储游戏大量的配置数据，如果配置中有很多冗余重复的数据，那么这个
 配置表将占用较多的内存，并且影响加载速度。
 
@@ -25,8 +23,7 @@ features:
 require:
 the key of the root table must be all string or number as id
 
-
------------------------------------------------------------------------------------
+```lua
 {
 	{
 		1,
@@ -105,7 +102,8 @@ the key of the root table must be all string or number as id
 		b = "123"
 	}
 }
------------------------------------------------------------------------------------
+```
+```lua
 local __rt_1 = {
 }
 local __rt_2 = {
@@ -176,5 +174,5 @@ do
 end
 
 return test
------------------------------------------------------------------------------------
+```
 
