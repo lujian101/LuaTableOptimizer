@@ -1,25 +1,25 @@
-# LuaTableOptimizer
+ï»¿# LuaTableOptimizer
 simple readonly lua table optimizer 
 
 -----------------------------------------------------------------------------------
 Optimize readonly lua table memory via reuse values.
 
-    Lua'table Í¨³£±»ÓÃÀ´´æ´¢ÓÎÏ·´óÁ¿µÄÅäÖÃÊı¾İ£¬Èç¹ûÅäÖÃÖĞÓĞºÜ¶àÈßÓàÖØ¸´µÄÊı¾İ£¬ÄÇÃ´Õâ¸ö
-ÅäÖÃ±í½«Õ¼ÓÃ½Ï¶àµÄÄÚ´æ£¬²¢ÇÒÓ°Ïì¼ÓÔØËÙ¶È¡£
+    Lua'table é€šå¸¸è¢«ç”¨æ¥å­˜å‚¨æ¸¸æˆå¤§é‡çš„é…ç½®æ•°æ®ï¼Œå¦‚æœé…ç½®ä¸­æœ‰å¾ˆå¤šå†—ä½™é‡å¤çš„æ•°æ®ï¼Œé‚£ä¹ˆè¿™ä¸ª
+é…ç½®è¡¨å°†å ç”¨è¾ƒå¤šçš„å†…å­˜ï¼Œå¹¶ä¸”å½±å“åŠ è½½é€Ÿåº¦ã€‚
 
-¹¦ÄÜ:
-1£º»ñÈ¡×Ö¶ÎÖĞÊ¹ÓÃ×î¶à´ÎÊıµÄÖµ×÷ÎªÄ¬ÈÏÖµ£¬²¢ÇÒÉ¾³ıÄ¬ÈÏÖµ×Ö¶Î
-2£ºÊ¹ÓÃÁË·ÇASCII×Ö·û¼¯×Ö·ûµÄ×Ö¶Î±»ÊÓÎªĞèÒª×ö¶àÓïÑÔ»¯´¦Àí²¢ÌáÈ¡Ìæ»»³ÉÌØÊâ±êÊ¶·û
-3£ºÎ¨Ò»»¯ËùÓĞµÄ×Ótable£¬²¢ÇÒÖ¸ÏòÍ¬Ò»¸öÒıÓÃ£¬ÒÔ½ÚÔ¼ÄÚ´æ
+åŠŸèƒ½:
+1.è·å–å­—æ®µä¸­ä½¿ç”¨æœ€å¤šæ¬¡æ•°çš„å€¼ä½œä¸ºé»˜è®¤å€¼ï¼Œå¹¶ä¸”åˆ é™¤é»˜è®¤å€¼å­—æ®µ
+2.ä½¿ç”¨äº†éASCIIå­—ç¬¦é›†å­—ç¬¦çš„å­—æ®µè¢«è§†ä¸ºéœ€è¦åšå¤šè¯­è¨€åŒ–å¤„ç†å¹¶æå–æ›¿æ¢æˆç‰¹æ®Šæ ‡è¯†ç¬¦
+3.å”¯ä¸€åŒ–æ‰€æœ‰çš„å­tableï¼Œå¹¶ä¸”æŒ‡å‘åŒä¸€ä¸ªå¼•ç”¨ï¼Œä»¥èŠ‚çº¦å†…å­˜
 
    Lua'table commonly use to store configuration data for games. it takes a lot of memory
 if it contains many fields with same value. this optimization could improve memory usage
 and loading speed.
 
 features:
-1: remove default value fields ( store them into metatable )
-2: auto localization
-3: reuse all table values to save memory
+1.remove default value fields ( store them into metatable )
+2.auto localization
+3.reuse all table values to save memory
 
 
 require:
