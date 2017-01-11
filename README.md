@@ -23,6 +23,8 @@ and loading speed.
 ###Require
 * The key of root table must be all string or number type
 
+
+####Before
 ```lua
 {
 	{
@@ -104,6 +106,7 @@ and loading speed.
 }
 ```
 
+####Optimized
 ```lua
 local __rt_1 = {
 }
