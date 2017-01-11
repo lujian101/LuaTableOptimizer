@@ -1,10 +1,10 @@
 ﻿#LuaTableOptimizer
 ===================================================================================
+
 Simple readonly lua table optimizer 
 -----------------------------------------------------------------------------------
 
-Lua Table 通常被用来存储游戏大量的配置数据，如果配置中有很多冗余重复的数据，那么这个
-配置表将占用较多的内存，影响加载速度
+Lua Table 通常被用来存储游戏的配置数据，如果配置中有很多冗余重复的数据那么将占用较多的内存，严重影响加载速度
 
 Lua'table commonly use to store configuration data for games. it takes a lot of memory
 if it contains many fields with same value. this optimization could improve memory usage
