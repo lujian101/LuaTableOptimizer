@@ -26,6 +26,7 @@ local DefaultValueTableName = "__default_values"
 local EnableDatasetOptimize = true
 local EnableDefaultValueOptimize = true
 local PrintTableRefCount = false
+local UnknownName = "___noname___"
 
 local floor = math.floor
 local fmod = math.fmod
@@ -932,7 +933,7 @@ local function UniquifyTable( t )
 		UniquifyTablesRefCounter[ ref ] = refcount + 1
 		return ref
 	end
-	
+
 	local overwrites = nil
 	for k, v in pairs( t ) do
 		overwrites = overwrites or {}
@@ -1039,14 +1040,14 @@ local function OptimizeDataset( dataset )
 			end
 		end
 	end
-	
+
 	ids = {}
 	idType = nil
 	UniquifyTables = {}
 	UniquifyTablesIds = {}
 	UniquifyTablesInvIds = {}
 	UniquifyTablesRefCounter = {}
-	
+
 	local isIntegerKey = true
 	local overwrites = nil
 	OrderedForeach(
@@ -1131,12 +1132,12 @@ local function OptimizeDataset( dataset )
 		end
 		returnVal = defaultValues
 	end
-	
+
 	-- remove tables whose's ref is 1 and re-mapping id
 	local newid = 1
 	local newIds = {}
 	local newInvIds = {}
-	
+
 	OrderedForeach(
 		UniquifyTablesIds,
 		function( id, hash )
@@ -1151,7 +1152,7 @@ local function OptimizeDataset( dataset )
 			end
 		end
 	)
-	
+
 	UniquifyTablesIds = newIds
 	UniquifyTablesInvIds = newInvIds
 	return returnVal
@@ -1228,6 +1229,10 @@ local function SaveDatasetToFile( dataset, tofile, tableRef, name )
 		end
 	end
 	local datasetName = dataset.__name or name
+	if not datasetName then
+		datasetName = UnknownName
+		dataset.__name = datasetName
+	end
 	outFile.write( string.format( "local %s = \n", datasetName ) )
 
 	-- remove none table value
@@ -1255,6 +1260,10 @@ end
 
 local function ExportOptimizedDataset( t, StringBank )
 	local datasetName = t.__name
+	if not datasetName then
+		datasetName = UnknownName
+		t.__name = datasetName
+	end
 	OrderedForeach(
 		t,
 		function( id, record )
@@ -1387,7 +1396,7 @@ local function ExportDatabaseLocalText( tofile, newStringBank )
 	print( "Database Exporting LocaleText done." )
 end
 
---[[
+
 local test = {
 	{
 		1,
@@ -1453,11 +1462,12 @@ EnableDefaultValueOptimize = true
 _localizedText = {}
 t, tableRef = ExportOptimizedDataset( _clone, _localizedText )
 assert( t == _clone )
-SaveDatasetToFile( _clone, false, tableRef, "test" )
+--_clone.__name = "__cloned_test"
+SaveDatasetToFile( _clone, false, tableRef )
 local _dst = SerializeTable( _clone )
 print( _dst )
 print( _src ~= _dst )
---]]
+
 
 --ExportDatabaseLocalText( false )
 
