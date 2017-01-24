@@ -1396,7 +1396,7 @@ local function ExportDatabaseLocalText( tofile, newStringBank )
 	print( "Database Exporting LocaleText done." )
 end
 
-
+--[[
 local test = {
 	{
 		1,
@@ -1467,7 +1467,7 @@ SaveDatasetToFile( _clone, false, tableRef )
 local _dst = SerializeTable( _clone )
 print( _dst )
 print( _src ~= _dst )
-
+--]]
 
 --ExportDatabaseLocalText( false )
 
