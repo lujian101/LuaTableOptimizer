@@ -1,3 +1,14 @@
+--[[
+How to use:
+
+Put all lua files into DatabaseRoot then call ExportDatabaseLocalText( tofile = true, newStringBank = false ) ( beware: all your original files will be replaced with optimized files )
+If you want to exlucde some input files in DatabaseRoot, just add theirs names into ExcludedFiles
+
+
+
+--]]
+
+
 local Root = "./"
 if arg and arg[0] then
 	local s, e = string.find( arg[0], "Client" )
@@ -34,7 +45,6 @@ local fmod = math.fmod
 local ExcludedFiles = {
 	--Add file name to exclude from build
 	_LocaleText = true,
-	RoleAnimEventBank = true
 }
 
 local UniquifyTables = {} -- hash -> table
@@ -1363,6 +1373,8 @@ local function ExportOptimizedDataset( t, StringBank )
 	return t, tableRef, localized
 end
 
+--tofile: not output to file, just for debug
+--newStringBank: if false, exporter will use existing string hash for increamental building
 local function ExportDatabaseLocalText( tofile, newStringBank )
 	local StringBank = nil
 	if newStringBank then
