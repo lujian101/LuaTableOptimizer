@@ -527,7 +527,13 @@ local function _SerializeTable( val, name, skipnewlines, campact, depth, tableRe
 		local nt = type( name )
 		if nt == "string" then
 			if name ~= "" then
-				append( name )
+				if string.match( name,'^%d+' ) then
+					append( "[\"" )
+					append( name )
+					append( "\"]" )
+				else
+					append( name )
+				end
 			else
 				append( "[\"\"]" )
 			end
