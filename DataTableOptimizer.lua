@@ -719,7 +719,7 @@ local function LoadStringBankFromCSV()
 			end
 		end
 	else
-		LoadStringBankFromLua()
+		return LoadStringBankFromLua()
 	end
 	return stringBank
 end
