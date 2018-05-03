@@ -1,30 +1,30 @@
-﻿#LuaTableOptimizer
+# LuaTableOptimizer
 ===================================================================================
 
-Simple readonly lua table optimizer 
+Simple readonly lua table optimizer
 -----------------------------------------------------------------------------------
 
 Lua Table 通常被用来存储游戏的配置数据，如果配置中有很多冗余重复的数据那么将占用较多的内存，严重影响加载速度
 
-Lua'table commonly use to store configuration data for games. it takes a lot of memory
+Lua table commonly use to store configuration data for games. it takes a lot of memory
 if it contains many fields with same value. this optimization could improve memory usage
 and loading speed.
 
-###功能
+### 功能
 * 获取字段中使用最多次数的值作为默认值，并且删除默认值字段
 * 使用了非ASCII字符集字符的字段被视为需要做多语言化处理并提取替换成特殊标识符
 * 唯一化所有的子table，并且指向同一个引用，以节约内存
 
-###Features
+### Features
 * remove default value fields ( store them into metatable )
 * auto localization
 * reuse all table values to save memory
 
-###Require
+### Require
 * The key of root table must be all string or number type
 
 
-####Before
+#### Before
 ```lua
 {
 	{
@@ -106,7 +106,7 @@ and loading speed.
 }
 ```
 
-####Optimized
+#### Optimized
 ```lua
 local __rt_1 = {
 }
