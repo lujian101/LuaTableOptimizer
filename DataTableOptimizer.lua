@@ -21,6 +21,10 @@ local DatabaseRoot = Root.."/Assets/StreamingAssets/Database"
 local LuaRoot = Root.."/Assets/StreamingAssets/LuaRoot"
 package.path = package.path..';'..DatabaseRoot..'/?.lua'..';'.. LuaRoot..'/?.lua'
 
+local EnableDatasetOptimize = true
+local EnableDefaultValueOptimize = true
+local EnableLocalization = true -- set to false to disable localization process
+
 local Database = {}
 local CSV --= require "std.csv"
 local DefaultNumberSerializedFormat = "%.14g"
@@ -34,8 +38,6 @@ local LocaleTextLeadingTag = '@'
 local MaxLocalVariableNum = 190 -- lparser.c #define MAXVARS 200
 local RefTableName = "__rt"
 local DefaultValueTableName = "__default_values"
-local EnableDatasetOptimize = true
-local EnableDefaultValueOptimize = true
 local PrintTableRefCount = false
 local UnknownName = "___noname___"
 
@@ -1280,15 +1282,17 @@ local function ExportOptimizedDataset( t, StringBank )
 		datasetName = UnknownName
 		t.__name = datasetName
 	end
-	local localized = false
-	OrderedForeach(
-		t,
-		function( id, record )
-			if type( record ) == "table" then
-				localized = LocalizeRecord( id, record, genCode, StringBank ) or localized
-			end
-		end
-	)
+    local localized = false
+    if EnableLocalization then
+        OrderedForeach(
+            t,
+            function( id, record )
+                if type( record ) == "table" then
+                    localized = LocalizeRecord( id, record, genCode, StringBank ) or localized
+                end
+            end
+        )
+    end
 	local tableRef = nil
 	local defaultValues = nil
 	if EnableDatasetOptimize then
