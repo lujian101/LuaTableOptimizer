@@ -1280,6 +1280,7 @@ local function ExportOptimizedDataset( t, StringBank )
 		datasetName = UnknownName
 		t.__name = datasetName
 	end
+	local localized = false
 	OrderedForeach(
 		t,
 		function( id, record )
@@ -1290,7 +1291,6 @@ local function ExportOptimizedDataset( t, StringBank )
 	)
 	local tableRef = nil
 	local defaultValues = nil
-	local localized = false
 	if EnableDatasetOptimize then
 		defaultValues = OptimizeDataset( t )
 		if defaultValues then
