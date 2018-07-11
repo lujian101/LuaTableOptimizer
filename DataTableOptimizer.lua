@@ -1304,7 +1304,7 @@ local function ExportOptimizedDataset( t, StringBank )
 				for field, defaultVal in pairs( defaultValues ) do
 					local value = record[ field ]
 					local hasValue = true
-					if not value then
+					if value == nil then
 						assert( false, "OptimizeDataset should patch all missing fields!" )
 						hasValue = false
 					end
