@@ -1361,7 +1361,7 @@ local function ExportOptimizedDataset( t, StringBank )
 			refcounter = UniquifyTablesRefCounter, -- table -> refcount
 			maxLocalVariableNum = MaxLocalVariableNum,
 			refTableName = RefTableName,
-			postOutput = function( ostream )
+			postOutput = function( outFile )
 				if defaultValues then
 					outFile.write(
 						string.format(
