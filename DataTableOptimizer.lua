@@ -1099,7 +1099,7 @@ local function OptimizeDataset( dataset )
 	end
 	local returnVal = nil
 	if EnableDefaultValueOptimize then
-		local defaultValues = {}
+		local defaultValues = nil
 		for i, field in ipairs( names ) do
 			local curType = typeNameTable[ field ]
 			-- for all record/row
@@ -1145,6 +1145,7 @@ local function OptimizeDataset( dataset )
 				end
 			)
 			if defaultValue then
+				defaultValues = defaultValues or {}
 				defaultValues[ field ] = defaultValue
 			end
 		end
