@@ -1108,7 +1108,7 @@ local function OptimizeDataset( dataset )
 			for r, t in ipairs( ids ) do
 				local record = dataset[ t ]
 				local v = record[ field ]
-				if v then
+				if v ~= nil then
 					local vcount = defaultValueStat[ v ] or 0
 					defaultValueStat[ v ] = vcount + 1
 				else
