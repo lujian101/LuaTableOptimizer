@@ -9,7 +9,7 @@ If you want to exlucde some input files in DatabaseRoot, just add theirs names i
 --]]
 
 
-local Root = "./"
+local Root = "."
 if arg and arg[0] then
 	local s, e = string.find( arg[0], "Client" )
 	if e then
@@ -1022,7 +1022,7 @@ local function OptimizeDataset( dataset )
 				-- for all record / row
 				for r, t in ipairs( ids ) do
 					local record = dataset[ t ]
-					if record[ field ] then
+					if record[ field ] ~= nil then
 						local v = record[ field ]
 						local curType = GetValueTypeNameCS( v )
 						if not typeNameTable[ field ] then
@@ -1041,7 +1041,7 @@ local function OptimizeDataset( dataset )
 				for r, t in ipairs( ids ) do
 					local record = dataset[ t ]
 					local v = record[ field ]
-					if not v then
+					if v == nil then
 						local ft = typeNameTable[ field ]
 						if ft == "string" then
 							v = ""
@@ -1130,7 +1130,7 @@ local function OptimizeDataset( dataset )
 						else
 							if curType == "table" then
 								local _value = SerializeTable( value, true, true )
-								if _value < _defaultValue then
+								if #_value > #_defaultValue then
 									defaultValue = value
 									_defaultValue = SerializeTable( defaultValue, true, true )
 								end
@@ -1144,7 +1144,7 @@ local function OptimizeDataset( dataset )
 					end
 				end
 			)
-			if defaultValue then
+			if defaultValue ~= nil then
 				defaultValues = defaultValues or {}
 				defaultValues[ field ] = defaultValue
 			end
@@ -1203,7 +1203,7 @@ local function SaveDatasetToFile( dataset, tofile, tableRef, name )
 		local refcounter = tableRef.refcounter
 		local maxLocalVariableNum = tableRef.maxLocalVariableNum or MaxLocalVariableNum
 		local refTableName = tableRef.refTableName or "__rt"
-		local tableNum = table.maxn( tableIds )
+		local tableNum = #tableIds
 		for id, hash in ipairs( tableIds ) do
 			local table = tables[ hash ]
 			if table and id <= maxLocalVariableNum then
@@ -1283,13 +1283,14 @@ local function ExportOptimizedDataset( t, StringBank )
 		datasetName = UnknownName
 		t.__name = datasetName
 	end
-    local localized = false
+	local localized = false
+	local genCode = false
     if EnableLocalization then
         OrderedForeach(
             t,
-            function( id, record )
-                if type( record ) == "table" then
-                    localized = LocalizeRecord( id, record, genCode, StringBank ) or localized
+            function( id, _record )
+                if type( _record ) == "table" then
+                    localized = LocalizeRecord( id, _record, genCode, StringBank ) or localized
                 end
             end
         )
