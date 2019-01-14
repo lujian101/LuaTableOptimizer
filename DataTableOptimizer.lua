@@ -1135,7 +1135,13 @@ local function OptimizeDataset( dataset )
 									_defaultValue = SerializeTable( defaultValue, true, true )
 								end
 							else
-								if value < defaultValue then
+								local _value = value
+								local _defaultValue = defaultValue
+								if type( value ) == 'boolean' then
+								  _value = value and 1 or 0
+								  _defaultValue = defaultValue and 1 or 0
+								end
+								if _value < _defaultValue then
 									defaultValue = value
 									_defaultValue = SerializeTable( defaultValue, true, true )
 								end
