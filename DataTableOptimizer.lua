@@ -1153,9 +1153,9 @@ local function OptimizeDataset( dataset )
 					end
 				end
 			)
-      if not result then
-        error( string.format( "create default value for \"%s\" failed. please make sure all the value's types are the same.", field ) )
-      end
+			if not result then
+				error( string.format( "create default value for \"%s\" failed. please make sure all the value's types are the same.", field ) )
+			end
 			if defaultValue ~= nil then
 				defaultValues = defaultValues or {}
 				defaultValues[ field ] = defaultValue
