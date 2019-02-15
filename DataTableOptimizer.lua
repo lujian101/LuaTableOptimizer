@@ -1,7 +1,7 @@
 --[[
 How to use:
 
-Put all lua files into DatabaseRoot then call ExportDatabaseLocalText( tofile = true, newStringBank = false ) ( beware: all your original files will be replaced with optimized files )
+Put all lua files into DatabaseRoot then call ExportDatabaseLocalText( tofile = true, newStringBank = false )  at the end of file. ( beware: all your original files will be replaced with optimized files )
 If you want to exlucde some input files in DatabaseRoot, just add theirs names into ExcludedFiles
 
 
@@ -35,7 +35,7 @@ local StringBankCSVOutput = DatabaseRoot.."/"..DatabaseLocaleTextName..".csv"
 local MaxStringBankRedundancy = 100
 local MaxStringBankBinSize = 524288
 local LocaleTextLeadingTag = '@'
-local MaxLocalVariableNum = 190 -- lparser.c #define MAXVARS 200
+local MaxLocalVariableNum = 160 -- lparser.c #define MAXVARS 200
 local RefTableName = "__rt"
 local DefaultValueTableName = "__default_values"
 local PrintTableRefCount = false
@@ -161,8 +161,11 @@ local function OrderedForeachByValue( _table, _func )
 		for _, _v in ipairs( kv ) do
 			local k = _v[ 1 ]
 			local v = _v[ 2 ]
-			_func( k, v )
+			if not pcall( _func, k, v ) then
+				return false
+			end
 		end
+    return true
 	end
 end
 
@@ -1119,7 +1122,7 @@ local function OptimizeDataset( dataset )
 			local max = -1
 			local defaultValue = nil
 			local _defaultValue = "{}"
-			OrderedForeachByValue(
+			local result = OrderedForeachByValue(
 				defaultValueStat,
 				function( value, count )
 					if count >= max then
@@ -1150,6 +1153,9 @@ local function OptimizeDataset( dataset )
 					end
 				end
 			)
+      if not result then
+        error( string.format( "create default value for \"%s\" failed. please make sure all the value's types are the same.", field ) )
+      end
 			if defaultValue ~= nil then
 				defaultValues = defaultValues or {}
 				defaultValues[ field ] = defaultValue
