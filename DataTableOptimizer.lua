@@ -563,7 +563,7 @@ local function _SerializeTable( val, name, skipnewlines, campact, depth, tableRe
 		local array_part = {}
 		local count = 0
         for k, v in ipairs( val ) do
-			if type( val ) ~= "function" then
+			if type( v ) ~= "function" then
 				array_part[k] = true
 				if count > 0 then
 					append( "," )
