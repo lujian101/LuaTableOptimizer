@@ -112,22 +112,26 @@ local function AddStringToBank( stringBank, str )
 	return hash
 end
 
-local function OrderedForeach( _table, _func )
-	if type( _table ) == "table" then
+local function OrderedForeach( _table, _func, _filter )
+	local _type = type
+	if _type( _table ) == "table" then
 		local kv = {}
 		for k, v in pairs( _table ) do
-			kv[ #kv + 1 ] = { k, v }
+			if not _filter or _filter( k, v ) then
+				kv[ #kv + 1 ] = { k, v }
+			end
 		end
+		local _tostring = tostring
 		table.sort( kv,
 			function( _l, _r )
 				local l = _l[ 1 ]
 				local r = _r[ 1 ]
-				local lt = type( l )
-				local rt = type( r )
+				local lt = _type( l )
+				local rt = _type( r )
 				if lt == rt and lt ~= "table" then
 					return l < r
 				else
-					return tostring( l ) < tostring( r )
+					return _tostring( l ) < _tostring( r )
 				end
 			end
 		)
@@ -139,22 +143,26 @@ local function OrderedForeach( _table, _func )
 	end
 end
 
-local function OrderedForeachByValue( _table, _func )
-	if type( _table ) == "table" then
+local function OrderedForeachByValue( _table, _func, _filter )
+	local _type = type
+	if _type( _table ) == "table" then
 		local kv = {}
 		for k, v in pairs( _table ) do
-			kv[ #kv + 1 ] = { k, v }
+			if not _filter or _filter( k, v ) then
+				kv[ #kv + 1 ] = { k, v }
+			end
 		end
+		local _tostring = tostring
 		table.sort( kv,
 			function( _l, _r )
 				local l = _l[ 2 ]
 				local r = _r[ 2 ]
-				local lt = type( l )
-				local rt = type( r )
+				local lt = _type( l )
+				local rt = _type( r )
 				if lt == rt and lt ~= "table"then
 					return l < r
 				else
-					return tostring( l ) < tostring( r )
+					return _tostring( l ) < _tostring( r )
 				end
 			end
 		)
@@ -956,12 +964,17 @@ local function UniquifyTable( t )
 	end
 
 	local overwrites = nil
-	for k, v in pairs( t ) do
-		overwrites = overwrites or {}
-		if type( v ) == "table" then
-			overwrites[ k ] = UniquifyTable( v )
-		end
-	end
+	local _type = type
+    OrderedForeach(
+        t,
+        function( k, v )
+            overwrites = overwrites or {}
+            overwrites[k] = UniquifyTable( v )
+        end,
+        function( k, v )
+            return _type( v ) == "table"
+        end
+    )
 	if overwrites then
 		for k, v in pairs( overwrites ) do
 			t[ k ] = overwrites[ k ]
